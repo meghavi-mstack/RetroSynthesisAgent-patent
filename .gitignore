@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+retrosyn_env/
+.env
+
+# Project specific
+pdf_pi/
+pdf_add/
+res_pi/
+tree_pi/
+RetroSynAgent/emol.json
+version.smi.gz
+*.smi.gz
+*.pdf
+*.json
+*.pkl
+
+# Explicitly exclude large files
+RetroSynAgent/emol.json
+
+# IDE specific
+.idea/
+
+# Redis data
+dump.rdb
+
+# Logs
+*.log
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+.*.swp
