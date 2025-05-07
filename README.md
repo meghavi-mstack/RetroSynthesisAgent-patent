@@ -128,7 +128,7 @@ pip install -r requirements.txt
    This will create a JSON file with SMILES strings that will be used by the system to identify commercially available compounds.
 
 3. For patent-based retrieval modes, download the molecule_to_patent.jsonl dataset:
-   - Download from: https://doi.org/10.5281/zenodo.10572870
+   - Download from: https://drive.google.com/file/d/1qcvdWB-b2164uFkoh3EpjGveZ2fFXeIM/view?usp=sharing
    - Place the file in the project root directory
    - Import the data into Redis using the provided script:
    ```bash
