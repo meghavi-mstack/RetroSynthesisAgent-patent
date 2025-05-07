@@ -122,7 +122,7 @@ def _process_batch(redis_client, batch):
 
 if __name__ == "__main__":
     # Default file path
-    jsonl_file = "molecule_to_patent.jsonl"
+    jsonl_file = "patcid_molecule_to_patents.jsonl"
     
     # Get Redis connection details from environment or command line
     redis_host = os.getenv("REDIS_HOST", "localhost")
