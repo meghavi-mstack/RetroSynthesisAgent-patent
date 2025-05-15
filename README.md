@@ -16,6 +16,7 @@
    - [Tree Builder](#tree-builder)
    - [Tree Expansion](#tree-expansion)
    - [Reactions Filtration](#reactions-filtration)
+   - [JSON Output](#json-output)
    - [Knowledge Graph](#knowledge-graph)
 6. [Visualization](#visualization)
 7. [Technical Details](#technical-details)
@@ -128,7 +129,7 @@ pip install -r requirements.txt
    This will create a JSON file with SMILES strings that will be used by the system to identify commercially available compounds.
 
 3. For patent-based retrieval modes, download the molecule_to_patent.jsonl dataset:
-   - Download from: https://drive.google.com/file/d/1qcvdWB-b2164uFkoh3EpjGveZ2fFXeIM/view?usp=sharing
+   - Download from: https://doi.org/10.5281/zenodo.10572870
    - Place the file in the project root directory
    - Import the data into Redis using the provided script:
    ```bash
@@ -153,16 +154,42 @@ The HEADERS and COOKIES are used for web scraping of scientific literature. You 
 
 ### Command Line Interface
 
-To run the RetroSynthesisAgent from the command line:
+There are two main scripts for running the RetroSynthesisAgent from the command line:
+
+#### 1. Standard Mode (main.py)
+
+This mode runs the full RetroSynthesisAgent pipeline including recommendation of optimal pathways:
 
 ```bash
 python main.py --material [MATERIAL_NAME] --num_results [NUMBER_OF_PAPERS] --alignment [True/False] --expansion [True/False] --filtration [True/False] --retrieval_mode [MODE]
 ```
 
+#### 2. JSON Output Mode (json_main.py)
+
+This mode extracts reaction pathways and saves them as JSON without performing recommendation:
+
+```bash
+python json_main.py --material [MATERIAL_NAME] --num_results [NUMBER_OF_PAPERS] --alignment [True/False] --expansion [True/False] --filtration [True/False] --retrieval_mode [MODE] --output [OUTPUT_FILE.json]
+```
+
+The `--output` parameter is optional. If not specified, the output will be saved as `[material]_pathways.json`.
+
+The JSON output includes:
+- Raw reaction data extracted from the literature
+- Metadata about the run (material, retrieval mode, etc.)
+- Properly formatted JSON with indentation
+
+This mode is useful for:
+- Getting just the raw reaction pathways data without the recommendation
+- Using the pathways data in other applications or analyses
+- Saving the pathways data for later use without having to rerun the entire process
+
+#### Retrieval Modes
+
 The `retrieval_mode` parameter controls how documents are retrieved:
 - `patent-patent`: Uses patents for both initial retrieval and expansion
 - `paper-paper`: Uses academic papers for both initial retrieval and expansion
-- `both-both`: Uses both patents and papers for both initial retrieval and expansion (retrieves approximately 8 documents from each source by default)
+- `both-both`: Uses both patents and papers for both initial retrieval and expansion
 
 Examples:
 
@@ -170,8 +197,8 @@ Examples:
 # Using academic papers for both initial retrieval and expansion
 python main.py --material polyimide --num_results 15 --alignment True --expansion True --filtration True --retrieval_mode paper-paper
 
-# Using both patents and papers for initial retrieval and expansion
-python main.py --material aspirin --num_results 16 --alignment True --expansion True --filtration True --retrieval_mode both-both
+# Using both patents and papers for initial retrieval and expansion with JSON output
+python json_main.py --material aspirin --num_results 26 --alignment True --expansion False --filtration False --retrieval_mode both-both
 ```
 
 Alternatively, you can use the provided shell scripts:
@@ -296,6 +323,18 @@ Key features:
 - Filters reactions based on conditions (temperature, pressure, etc.)
 - Evaluates the feasibility of reaction pathways
 - Recommends optimal synthesis pathways based on various criteria
+
+### JSON Output
+
+The `json_main.py` script provides a way to extract and save reaction pathways data in JSON format without proceeding to the recommendation step.
+
+Key features:
+
+- Extracts reaction pathways from literature
+- Saves data in a structured JSON format
+- Includes metadata about the extraction process
+- Works with all retrieval modes (patent, paper, or both)
+- Handles error cases gracefully by saving error information
 
 ### Knowledge Graph
 
